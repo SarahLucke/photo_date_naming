@@ -3,8 +3,8 @@ This bash script renames image files according to their last modified date.
 When starting the script, you will be asked a few questions.  
 1. Please enter a destination folder
 2. Please enter a prefix if you wish to use one
-3. Please enter a start date (format YYYMMDD)
-4. If applicable, please enter an end date (format YYYMMDD)
+3. Please enter a start date (format YYYYMMDD)
+4. If applicable, please enter an end date (format YYYYMMDD)
 5. Please enter the destination extension
 6. Do you wish to delete the original files? (Y/N)
 
