@@ -1,62 +1,67 @@
 #!/bin/bash
 
 function get_destination(){
-	echo -n "Please enter a destination folder: " >&2
 	read destination_folder
-	if ! [[ -d $destination_folder ]]; then
-		echo "This folder does not exist... exiting" >&2
-		exit 1
-	fi
 	echo $destination_folder
 }
 
 function get_prefix(){
-	echo -n "Please enter a prefix if you wish to use one: " >&2
 	read prefix
 	echo $prefix
 }
 
 function get_startdate(){
-	echo -n "Please enter a start date (format YYYYMMDD): " >&2
 	read startdate
-	while ! [[ $startdate =~ ^[0-9]{8}$ ]]; do
-		echo -n "Format is wrong... try again: "
-		read startdate
-	done
 	echo $startdate
 }
 
 function get_enddate(){
-	echo -n "If applicable, please enter an end date (format YYYYMMDD): " >&2
 	read enddate
-	if [[ $enddate == "" ]]; then
-		enddate=$(date +"%Y%m%d")
-		echo "-> setting to " $enddate >&2
-	fi
 	echo $enddate
 }
 
 function get_destination_extension(){
-	echo -n "Please enter the destination extension: " >&2
 	read destination_extension
-	if [[ $destination_extension == "" ]]; then
-		destination_extension="jpg"
-		echo "-> setting to "$destination_extension >&2
-	fi
 	echo $destination_extension
 }
 
 function get_delete_originals(){
-	echo -n "Do you wish to delete the original files? (Y/N): " >&2
 	read delete_originals
 	echo delete_originals
 }
 
+echo -n "Please enter a destination folder: "
 destination_folder=$(get_destination)
+if ! [[ -d $destination_folder ]]; then
+	echo "This folder does not exist... exiting"
+	exit 1
+fi
+
+echo -n "Please enter a prefix if you wish to use one: "
 prefix=$(get_prefix)
+
+echo -n "Please enter a start date (format YYYYMMDD): "
 startdate=$(get_startdate)
+while ! [[ $startdate =~ ^[0-9]{8}$ ]]; do
+	echo -n "Format is wrong... try again: "
+	startdate=$(get_startdate)
+done
+
+echo -n "If applicable, please enter an end date (format YYYYMMDD): "
 enddate=$(get_enddate)
+if [[ $enddate == "" ]]; then
+	enddate=$(date +"%Y%m%d")
+	echo "-> setting to " $enddate
+fi
+
+echo -n "Please enter the destination extension: "
 destination_extension=$(get_destination_extension)
+if [[ $destination_extension == "" ]]; then
+	destination_extension="jpg"
+	echo "-> setting to "$destination_extension
+fi
+
+echo -n "Do you wish to delete the original files? (Y/N): "
 delete_originals=$(get_delete_originals)
 
 echo "### START"
