@@ -1,38 +1,63 @@
 #!/bin/bash
 
-echo -n "Please enter a destination folder: "
-read destination_folder
-if ! [[ -d $destination_folder ]]; then
-	echo "This folder does not exist... exiting"
-	exit
-fi
+function get_destination(){
+	echo -n "Please enter a destination folder: "
+	read destination_folder
+	if ! [[ -d $destination_folder ]]; then
+		echo "This folder does not exist... exiting"
+		exit 1
+	fi
+	echo $destination_folder
+}
 
-echo -n "Please enter a prefix if you wish to use one: "
-read prefix
+function get_prefix(){
+	echo -n "Please enter a prefix if you wish to use one: "
+	read prefix
+	echo $prefix
+}
 
-echo -n "Please enter a start date (format YYYMMDD): "
-read startdate
-while ! [[ $startdate =~ ^[0-9]{8}$ ]]; do
-	echo -n "Format is wrong... try again: "
+function get_startdate(){
+	echo -n "Please enter a start date (format YYYMMDD): "
 	read startdate
-done
+	while ! [[ $startdate =~ ^[0-9]{8}$ ]]; do
+		echo -n "Format is wrong... try again: "
+		read startdate
+	done
+	echo $startdate
+}
 
-echo -n "If applicable, please enter an end date (format YYYMMDD): "
-read enddate
-if [[ $enddate == "" ]]; then
-	enddate=$(date +"%Y%m%d")
-	echo "-> setting to " $enddate
-fi
+function get_enddate(){
+	echo -n "If applicable, please enter an end date (format YYYMMDD): "
+	read enddate
+	if [[ $enddate == "" ]]; then
+		enddate=$(date +"%Y%m%d")
+		echo "-> setting to " $enddate
+	fi
+	echo $enddate
+}
 
-echo -n "Please enter the destination extension: "
-read destination_extension
-if [[ $destination_extension == "" ]]; then
-	destination_extension="jpg"
-	echo "-> setting to " $destination_extension
-fi
+function get_destination_extension(){
+	echo -n "Please enter the destination extension: "
+	read destination_extension
+	if [[ $destination_extension == "" ]]; then
+		destination_extension="jpg"
+		echo "-> setting to " $destination_extension
+	fi
+	echo $destination_extension
+}
 
-echo -n "Do you wish to delete the original files? (Y/N): "
-read delete_originals
+function get_delete_originals(){
+	echo -n "Do you wish to delete the original files? (Y/N): "
+	read delete_originals
+	echo delete_originals
+}
+
+destination_folder=$(get_destination)
+prefix=$(get_prefix)
+startdate=$(get_startdate)
+enddate=$(get_enddate)
+destination_extension=$(get_destination_extension)
+delete_originals=$(get_delete_originals)
 
 echo "### START"
 source_path=$(pwd)
@@ -84,7 +109,7 @@ find * -maxdepth 0 -type f -name "*" -exec file --mime-type {} \+ | awk -F: '{if
 		# catching copy error:
 		if [ $? -ne 0 ]; then
 			echo "a copy error occured - exiting"
-			exit
+			exit 1
 		fi
 		
 		# delete file if selected:
