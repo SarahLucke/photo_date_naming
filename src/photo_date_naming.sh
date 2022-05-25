@@ -1,23 +1,23 @@
 #!/bin/bash
 
 function get_destination(){
-	echo -n "Please enter a destination folder: "
+	echo -n "Please enter a destination folder: " >&2
 	read destination_folder
 	if ! [[ -d $destination_folder ]]; then
-		echo "This folder does not exist... exiting"
+		echo "This folder does not exist... exiting" >&2
 		exit 1
 	fi
 	echo $destination_folder
 }
 
 function get_prefix(){
-	echo -n "Please enter a prefix if you wish to use one: "
+	echo -n "Please enter a prefix if you wish to use one: " >&2
 	read prefix
 	echo $prefix
 }
 
 function get_startdate(){
-	echo -n "Please enter a start date (format YYYMMDD): "
+	echo -n "Please enter a start date (format YYYYMMDD): " >&2
 	read startdate
 	while ! [[ $startdate =~ ^[0-9]{8}$ ]]; do
 		echo -n "Format is wrong... try again: "
@@ -27,27 +27,27 @@ function get_startdate(){
 }
 
 function get_enddate(){
-	echo -n "If applicable, please enter an end date (format YYYMMDD): "
+	echo -n "If applicable, please enter an end date (format YYYYMMDD): " >&2
 	read enddate
 	if [[ $enddate == "" ]]; then
 		enddate=$(date +"%Y%m%d")
-		echo "-> setting to " $enddate
+		echo "-> setting to " $enddate >&2
 	fi
 	echo $enddate
 }
 
 function get_destination_extension(){
-	echo -n "Please enter the destination extension: "
+	echo -n "Please enter the destination extension: " >&2
 	read destination_extension
 	if [[ $destination_extension == "" ]]; then
 		destination_extension="jpg"
-		echo "-> setting to " $destination_extension
+		echo "-> setting to "$destination_extension >&2
 	fi
 	echo $destination_extension
 }
 
 function get_delete_originals(){
-	echo -n "Do you wish to delete the original files? (Y/N): "
+	echo -n "Do you wish to delete the original files? (Y/N): " >&2
 	read delete_originals
 	echo delete_originals
 }
