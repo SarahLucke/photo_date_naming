@@ -1,34 +1,5 @@
 #!/bin/bash
-
-function get_destination(){
-	read destination_folder
-	echo $destination_folder
-}
-
-function get_prefix(){
-	read prefix
-	echo $prefix
-}
-
-function get_startdate(){
-	read startdate
-	echo $startdate
-}
-
-function get_enddate(){
-	read enddate
-	echo $enddate
-}
-
-function get_destination_extension(){
-	read destination_extension
-	echo $destination_extension
-}
-
-function get_delete_originals(){
-	read delete_originals
-	echo delete_originals
-}
+load 'user_input.sh'
 
 echo -n "Please enter a destination folder: "
 destination_folder=$(get_destination)
@@ -84,7 +55,7 @@ find * -maxdepth 0 -type f -name "*" -exec file --mime-type {} \+ | awk -F: '{if
 	unset IFS
 	
 	# only process pictures in the specific time range:
-	if [[ $change -gt $startdate ]] && [[ $change -le $enddate ]]; then
+	if [[ $change -ge $startdate ]] && [[ $change -le $enddate ]]; then
 		echo "... found file: " $original_file " (" $change ")"
 		# different change date than before -> start at counter=0 again:
 		if [ $change -ne $last_change ]; then

@@ -19,3 +19,9 @@ Finally, the last question asks if the old files should be deleted. A "Y" will r
 As a result, you will end up with a file name along this line: ```<prefix><YYYYMMDD>_<counter>.<extension>```
 
 ![image](https://user-images.githubusercontent.com/72335980/170147597-25b33dee-ee59-4acb-88d1-7e4e527e1a91.png)
+
+## running tests:
+Clone the repository, then run the following commands to install the BATS testing library:  
+```git submodule init```  
+```git submodule update```  
+```test/bats/bin/bats test/test.bats```
